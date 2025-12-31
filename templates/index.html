@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Form</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h4>Customer Churn Prediction</h4>
+                </div>
+
+                <div class="card-body">
+                    <form id="customer-churn-data" method="post" action="/submit">
+
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" name="Age" placeholder="Enter Age" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tenure</label>
+                            <input type="number" class="form-control" name="Tenure" placeholder="Enter tenure" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Usage Frequency</label>
+                            <input type="number" class="form-control" name="Usage_Frequency" placeholder="Enter usage frequency" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" name="Gender">
+                                <option value="">Select</option>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Support_Calls</label>
+                            <input type="number" class="form-control" name="Support_Calls" placeholder="Enter Support_Calls" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Payment_Delay</label>
+                            <input type="number" class="form-control" name="Payment_Delay" placeholder="Enter Payment_Delay" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Total_Spend</label>
+                            <input type="number" class="form-control" name="Total_Spend" placeholder="Enter Payment_Delay" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Last_Interaction</label>
+                            <input type="number" class="form-control" name="Last_Interaction" placeholder="Enter Payment_Delay" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Subscription_Type</label>
+                            <select class="form-select" name="Subscription_Type">
+                                <option value="">Select</option>
+                                <option value="Subscription_Type_Basic">Basic</option>
+                                <option value="Subscription_Type_Premium">Premium</option>
+                                <option value="Subscription_Type_Standard">Standard</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Contract_Length</label>
+                            <select class="form-select" name="Contract_Length">
+                                <option value="">Select</option>
+                                <option value="Contract_Length_Annual">Annual</option>
+                                <option value="Contract_Length_Monthly">Monthly</option>
+                                <option value="Contract_Length_Quarterly">Quarterly</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Submit
+                        </button>
+
+                    </form>
+
+                    <div id="result">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("customer-churn-data").addEventListener("submit", function (e) {
+    e.preventDefault(); // stop normal form submit
+
+    const result = document.getElementById("result");
+    const form = e.target;
+
+    const formData = {
+        Age: form.Age.value,
+        Tenure: form.Tenure.value,
+        Usage_Frequency: form.Usage_Frequency.value,
+        Gender: form.Gender.value,
+        Support_Calls: form.Support_Calls.value,
+        Payment_Delay: form.Payment_Delay.value,
+        Total_Spend: form.Total_Spend.value,
+        Last_Interaction: form.Last_Interaction.value,
+        Subscription_Type: form.Subscription_Type.value,
+        Contract_Length: form.Contract_Length.value
+    };
+
+    fetch("/api/v1/customer_churn", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("API error");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Success:", data);
+        result.innerHTML = `<h1>customer can left is = ${data.customer_can_left}</h1>`
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to submit form");
+    });
+});
+</script>
+
+
+</body>
+</html>
