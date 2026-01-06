@@ -1,13 +1,13 @@
 import pickle
 import logging
 from pathlib import Path
+from app.core.config import PROJECT_ROOT
 
 model = None
 scalar = None
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE_DIR / "customer_churn_model.pkl"
-scalar_path = BASE_DIR / "scaler.pkl"
+MODEL_PATH = PROJECT_ROOT / "ML_models" / "customer_churn_model.pkl"
+scalar_path = PROJECT_ROOT / "ML_models" / "scaler.pkl"
 
 logger = logging.getLogger(__name__)
 

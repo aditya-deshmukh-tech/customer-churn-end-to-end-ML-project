@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Request
 from starlette.responses import HTMLResponse
 import logging
-from app.core.config import BASE_DIR
+from app.core.config import PROJECT_ROOT
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 
-template = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+template = Jinja2Templates(directory=str(PROJECT_ROOT / "templates"))
 
 logger = logging.getLogger(__name__)
 
